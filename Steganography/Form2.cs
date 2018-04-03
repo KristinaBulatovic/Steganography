@@ -29,11 +29,12 @@ namespace Steganography
             string text = spc.Encrypt_TriplDES(key, textBox1.Text);
             for (int i = 0; i < img.Width; i++)
             {
-                for (int j = 0; j < img.Height; j++)
+                int j = 0;
+                for (j = 0; j < img.Height; j++)
                 {
                     Color pixel = img.GetPixel(i, j);
                     //RGB
-                    if (i < 1 && j < text.Length)
+                    if (i < text.Length && j < text.Length)
                     {
                         //Console.WriteLine("R[" + i + "][" + j + "] : " + pixel.R);
                         //Console.WriteLine("G[" + i + "][" + j + "] : " + pixel.G);
@@ -42,12 +43,14 @@ namespace Steganography
                         int value = Convert.ToInt32(letter);
                         //Console.WriteLine("Letter: " + letter + "\n Value: " + value);
                         img.SetPixel(i, j, Color.FromArgb(pixel.R, pixel.G, value));
+                        j += 10;
                     }
-                    if (i == img.Width - 1 && j == img.Height - 1)
-                    {
-                        img.SetPixel(i, j, Color.FromArgb(pixel.R, pixel.G, text.Length));
-                    }
+                    //if (i == img.Width - 1 && j == img.Height - 1)
+                    //{
+                    //    img.SetPixel(i, j, Color.FromArgb(pixel.R, pixel.G, text.Length));
+                    //}
                 }
+                i += 10;
             }
 
             spc.SavePicture(img);
